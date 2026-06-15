@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matías Herrera — Entrenador Personal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f4f0;
+    --lime: #c8f04a;
+    --gray-dark: #1a1a1a;
+    --gray-mid: #2e2e2e;
+    --gray-text: #888;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    transition: background 0.3s;
+  }
+  nav.scrolled { background: rgba(10,10,10,0.92); backdrop-filter: blur(8px); }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--gray-text); text-decoration: none; font-size: 13px; letter-spacing: 0.05em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--lime);
+    color: var(--black);
+    border: none;
+    padding: 10px 22px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: opacity 0.2s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.7) 60%, var(--black) 100%),
+                url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80') center/cover no-repeat;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--lime);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 12vw, 160px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+  }
+  .hero-title span { color: var(--lime); }
+  .hero-sub {
+    font-size: 16px;
+    color: rgba(245,244,240,0.7);
+    max-width: 480px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 16px; align-items: center; }
+  .btn-primary {
+    background: var(--lime);
+    color: var(--black);
+    padding: 14px 32px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: opacity 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-ghost {
+    color: var(--white);
+    font-size: 14px;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid rgba(245,244,240,0.3);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--white); }
+  .hero-stats {
+    position: absolute;
+    right: 40px;
+    bottom: 60px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-align: right;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 48px;
+    color: var(--lime);
+    line-height: 1;
+  }
+  .stat-label { font-size: 11px; letter-spacing: 0.1em; color: var(--gray-text); text-transform: uppercase; }
+
+  /* STRIP */
+  .strip {
+    background: var(--lime);
+    color: var(--black);
+    padding: 16px 40px;
+    display: flex;
+    gap: 48px;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .strip span { white-space: nowrap; }
+  .strip-sep { color: rgba(0,0,0,0.3); }
+
+  /* SECTION BASE */
+  section { padding: 100px 40px; }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--lime);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    margin-bottom: 48px;
+  }
+
+  /* SOBRE MI */
+  .about { background: var(--gray-dark); }
+  .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1100px; margin: 0 auto; }
+  .about-img-wrap { position: relative; }
+  .about-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    filter: grayscale(20%);
+  }
+  .about-img-label {
+    position: absolute;
+    bottom: -1px; left: -1px; right: -1px;
+    background: var(--lime);
+    color: var(--black);
+    padding: 12px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .about-text p { color: rgba(245,244,240,0.7); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
+  .about-list { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .about-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--white);
+  }
+  .about-list li::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--lime);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* SERVICIOS */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gray-mid); max-width: 1100px; margin: 0 auto; }
+  .service-card {
+    background: var(--black);
+    padding: 40px 32px;
+    transition: background 0.2s;
+  }
+  .service-card:hover { background: var(--gray-dark); }
+  .service-num { font-family: var(--font-display); font-size: 60px; color: var(--gray-mid); line-height: 1; margin-bottom: 16px; }
+  .service-card:hover .service-num { color: var(--lime); transition: color 0.2s; }
+  .service-name { font-size: 18px; font-weight: 500; margin-bottom: 12px; }
+  .service-desc { font-size: 14px; color: var(--gray-text); line-height: 1.7; margin-bottom: 24px; }
+  .service-price { font-family: var(--font-display); font-size: 28px; color: var(--lime); }
+  .service-price span { font-family: var(--font-body); font-size: 13px; color: var(--gray-text); font-weight: 300; }
+
+  /* PROCESO */
+  .process { background: var(--gray-dark); }
+  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1100px; margin: 0 auto; }
+  .process-step { position: relative; }
+  .process-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 20px; right: -20px;
+    width: 40px; height: 1px;
+    background: var(--gray-mid);
+  }
+  .step-icon {
+    width: 40px; height: 40px;
+    border: 1px solid var(--gray-mid);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--lime);
+  }
+  .step-name { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+  .step-desc { font-size: 13px; color: var(--gray-text); line-height: 1.6; }
+
+  /* TESTIMONIOS */
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+  .testi-card {
+    background: var(--gray-dark);
+    padding: 32px;
+    border-left: 2px solid var(--lime);
+  }
+  .testi-text { font-size: 15px; color: rgba(245,244,240,0.8); line-height: 1.7; margin-bottom: 24px; font-style: italic; }
+  .testi-author { font-size: 13px; font-weight: 500; }
+  .testi-meta { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
+  .testi-stars { color: var(--lime); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+
+  /* CTA */
+  .cta-section {
+    background: var(--lime);
+    color: var(--black);
+    text-align: center;
+    padding: 100px 40px;
+  }
+  .cta-section .section-label { color: rgba(0,0,0,0.5); }
+  .cta-section .section-title { color: var(--black); margin-bottom: 16px; }
+  .cta-sub { font-size: 16px; color: rgba(0,0,0,0.6); margin-bottom: 40px; }
+  .btn-dark {
+    background: var(--black);
+    color: var(--white);
+    padding: 16px 40px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+  }
+  .btn-dark:hover { opacity: 0.8; }
+
+  /* FOOTER */
+  footer {
+    background: var(--gray-dark);
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--gray-text);
+  }
+  .footer-logo { font-family: var(--font-display); font-size: 20px; color: var(--white); letter-spacing: 2px; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: var(--gray-text); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+
+  /* ANIMATIONS */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .hero { padding: 0 20px 40px; }
+    .hero-stats { display: none; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .strip { gap: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">MH</a>
+  <ul class="nav-links">
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#testimonios">Testimonios</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Empezar ahora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Entrenador personal certificado · Buenos Aires</p>
+    <h1 class="hero-title">TU<br>MEJOR<br><span>VERSIÓN</span></h1>
+    <p class="hero-sub">Entrenamiento personalizado para personas que quieren resultados reales, no rutinas genéricas. Sin excusas, con método.</p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Reservar clase de prueba</a>
+      <a href="#servicios" class="btn-ghost">Ver planes</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Años de experiencia</div>
+    </div>
+    <div>
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Clientes transformados</div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <span>Fuerza</span><span class="strip-sep">·</span>
+  <span>Resistencia</span><span class="strip-sep">·</span>
+  <span>Nutrición</span><span class="strip-sep">·</span>
+  <span>Movilidad</span><span class="strip-sep">·</span>
+  <span>Online y presencial</span><span class="strip-sep">·</span>
+  <span>Buenos Aires</span><span class="strip-sep">·</span>
+  <span>Resultados reales</span><span class="strip-sep">·</span>
+</div>
+
+<!-- SOBRE MI -->
+<section class="about" id="sobre-mi">
+  <div class="about-inner">
+    <div class="about-img-wrap reveal">
+      <img class="about-img" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" alt="Matías Herrera, entrenador personal">
+      <div class="about-img-label">Matías Herrera · Entrenador certificado NSCA</div>
+    </div>
+    <div class="reveal">
+      <p class="section-label">Sobre mí</p>
+      <h2 class="section-title">ENTRENO<br>PERSONAS,<br>NO CUERPOS</h2>
+      <div class="about-text">
+        <p>Soy Matías, entrenador personal con más de 8 años de experiencia trabajando con personas que quieren cambiar su relación con el ejercicio para siempre.</p>
+        <p>Mi enfoque combina ciencia del entrenamiento actualizada con un acompañamiento real. No vas a recibir una planilla descargada de internet.</p>
+      </div>
+      <ul class="about-list">
+        <li>Licenciado en Educación Física (UBA)</li>
+        <li>Certificación NSCA — Strength & Conditioning</li>
+        <li>Especialización en nutrición deportiva</li>
+        <li>Más de 200 alumnos con resultados documentados</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <p class="section-label reveal">Servicios</p>
+    <h2 class="section-title reveal">ELEGÍ TU<br>PLAN</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <h3 class="service-name">Plan Online</h3>
+      <p class="service-desc">Rutina 100% personalizada, seguimiento semanal por WhatsApp y ajustes mensuales según tu progreso. Ideal si ya sabés entrenar.</p>
+      <div class="service-price">$35.000 <span>/ mes</span></div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <h3 class="service-name">Presencial · 2x semana</h3>
+      <p class="service-desc">Dos sesiones semanales de 60 minutos en tu gimnasio o en el mío. Corrección técnica, progresión y motivación en tiempo real.</p>
+      <div class="service-price">$90.000 <span>/ mes</span></div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <h3 class="service-name">Transformación Total</h3>
+      <p class="service-desc">El plan completo: entrenamiento presencial 3x semana + plan de alimentación + seguimiento diario. Para resultados acelerados.</p>
+      <div class="service-price">$140.000 <span>/ mes</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="process" id="proceso">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <p class="section-label reveal">Cómo trabajo</p>
+    <h2 class="section-title reveal">EL<br>PROCESO</h2>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-icon">01</div>
+        <h3 class="step-name">Evaluación inicial</h3>
+        <p class="step-desc">Una sesión gratuita para entender tu punto de partida, objetivos y limitaciones físicas.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-icon">02</div>
+        <h3 class="step-name">Tu plan</h3>
+        <p class="step-desc">Diseño tu rutina y plan nutricional desde cero, adaptado exactamente a vos.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-icon">03</div>
+        <h3 class="step-name">Entrenamos</h3>
+        <p class="step-desc">Empezamos. Cada semana ajusto la carga y el foco según tu respuesta al entrenamiento.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-icon">04</div>
+        <h3 class="step-name">Resultados</h3>
+        <p class="step-desc">Medición mensual del progreso. Los números no mienten, y acá los celebramos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <p class="section-label reveal">Testimonios</p>
+    <h2 class="section-title reveal">LO QUE<br>DICEN</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"En 4 meses bajé 12 kg y por primera vez en mi vida me siento cómoda en el gimnasio. Matías no te da un plan genérico, te acompaña de verdad."</p>
+      <p class="testi-author">Lucía M.</p>
+      <p class="testi-meta">Plan Transformación Total · 4 meses</p>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Viajé todo el año y el plan online me permitió no perder el ritmo. La comunicación por WhatsApp es rápida y siempre ajustó cuando lo necesité."</p>
+      <p class="testi-author">Fernando R.</p>
+      <p class="testi-meta">Plan Online · 6 meses</p>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Empecé con lesión de rodilla y sin saber nada de entrenamiento. Hoy corro 5k y entreno 4 veces por semana. No lo hubiera logrado solo."</p>
+      <p class="testi-author">Diego S.</p>
+      <p class="testi-meta">Plan Presencial · 8 meses</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contacto">
+  <p class="section-label">Empezá hoy</p>
+  <h2 class="section-title">¿LISTO PARA<br>EL CAMBIO?</h2>
+  <p class="cta-sub">La primera sesión de evaluación es gratis. Sin compromiso.</p>
+  <a href="https://wa.me/5491100000000?text=Hola%20Mat%C3%ADas%2C%20quiero%20reservar%20mi%20evaluaci%C3%B3n%20gratuita" class="btn-dark" target="_blank" rel="noopener">Escribirme por WhatsApp</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">MH</span>
+  <span>© 2025 Matías Herrera · Entrenador Personal</span>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">WhatsApp</a>
+    <a href="#">Contacto</a>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
