@@ -150,20 +150,28 @@
   .stat-label { font-size: 11px; letter-spacing: 0.1em; color: var(--gray-text); text-transform: uppercase; }
 
   /* STRIP */
-  .strip {
+
     background: var(--lime);
     color: var(--black);
-    padding: 16px 40px;
-    display: flex;
-    gap: 48px;
+    padding: 14px 0;
     overflow: hidden;
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
-  .strip span { white-space: nowrap; }
+  .strip-track {
+    display: flex;
+    gap: 48px;
+    width: max-content;
+    animation: marquee 18s linear infinite;
+  }
+  .strip-track span { white-space: nowrap; }
   .strip-sep { color: rgba(0,0,0,0.3); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 
   /* SECTION BASE */
   section { padding: 100px 40px; }
@@ -323,7 +331,7 @@
     .process-steps { grid-template-columns: 1fr 1fr; }
     .testimonials-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 16px; text-align: center; }
-    .strip { gap: 24px; }
+  
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -371,13 +379,9 @@
 
 <!-- STRIP -->
 <div class="strip">
-  <span>Fuerza</span><span class="strip-sep">·</span>
-  <span>Resistencia</span><span class="strip-sep">·</span>
-  <span>Nutrición</span><span class="strip-sep">·</span>
-  <span>Movilidad</span><span class="strip-sep">·</span>
-  <span>Online y presencial</span><span class="strip-sep">·</span>
-  <span>Buenos Aires</span><span class="strip-sep">·</span>
-  <span>Resultados reales</span><span class="strip-sep">·</span>
+  <div class="strip-track">
+    <span>Fuerza</span><span class="strip-sep"> · </span><span>Resistencia</span><span class="strip-sep"> · </span><span>Nutrición</span><span class="strip-sep"> · </span><span>Movilidad</span><span class="strip-sep"> · </span><span>Online y presencial</span><span class="strip-sep"> · </span><span>Buenos Aires</span><span class="strip-sep"> · </span><span>Resultados reales</span><span class="strip-sep"> · </span><span>Fuerza</span><span class="strip-sep"> · </span><span>Resistencia</span><span class="strip-sep"> · </span><span>Nutrición</span><span class="strip-sep"> · </span><span>Movilidad</span><span class="strip-sep"> · </span><span>Online y presencial</span><span class="strip-sep"> · </span><span>Buenos Aires</span><span class="strip-sep"> · </span><span>Resultados reales</span><span class="strip-sep"> · </span>
+  </div>
 </div>
 
 <!-- SOBRE MI -->
